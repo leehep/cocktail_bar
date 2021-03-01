@@ -50,7 +50,7 @@ export default function DisplayRandomCocktail({coctailData}) {
   )
 
   const cardMedia = (
-    <CardMedia
+    <CardMedia 
       className={classes.media}
       image="https://www.thecocktaildb.com/images/media/drink/kztu161504883192.jpg"
       title="Grim Reaper"
