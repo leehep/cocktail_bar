@@ -17,12 +17,14 @@ const _ = require('lodash');
 
 function MainPage(){
   const [randomCocatail, setRandomCocatail] = React.useState(null);
+  
   useEffect(()=>{
-    
     axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
     .then((res)=>{
         const tempRandomCoctail=_.pickBy(res.data.drinks[0], (ingredient)=>{
-          return ingredient !== null
+          if (ingredient!==''){
+            return ingredient !== null
+          }
         });
         setRandomCocatail(tempRandomCoctail)
       })

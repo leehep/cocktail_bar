@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
@@ -13,6 +13,8 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Instagram } from '@material-ui/icons';
+const _ = require('lodash');
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +43,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DisplayRandomCocktail({coctailData}) {
   const classes = useStyles();
+  const [ingredient, setIngredient]=React.useState(null);
+  const [measure, setMeasure]=React.useState(null);
  
+  useEffect(()=>{
+    const ingredientObj = _.pickBy(coctailData,(value,key)=>{
+      return key.includes('strIngredient')});
+    const measureObj = _.pickBy(coctailData,(value,key)=>{
+      return key.includes('strMeasure')});
+    const ingredientArr=_.transform({...ingredientObj},(result,value)=>{
+      result.push(value)
+      return result
+    },[]);
+    // const temp = Object.value(measureObj)
+    const measureArr = _.transform({...measureObj},(result,value)=>{
+      result.push(value)
+      return result
+    },[]);
+
+    setIngredient(ingredientArr)
+    setMeasure(measureArr)
+  },[]);
+
   const cardHeader = (
     <CardHeader
       title={coctailData.strDrink}
@@ -50,10 +73,10 @@ export default function DisplayRandomCocktail({coctailData}) {
   )
 
   const cardMedia = (
-    <CardMedia 
+    <CardMedia
       className={classes.media}
-      image="https://www.thecocktaildb.com/images/media/drink/kztu161504883192.jpg"
-      title="Grim Reaper"
+      image={coctailData.strDrinkThumb}
+      title={coctailData.strDrink}
     />
   )
 
@@ -67,21 +90,18 @@ export default function DisplayRandomCocktail({coctailData}) {
 
   const ingredientList = (
     <List dense={true}>
-      <ListItem>
-        <ListItemText
-          primary="1 oz - Kahlua"
-        />
-      </ListItem>
-      <ListItem>
-        <ListItemText
-          primary="1 oz Bacardi - 151 proof rum"
-        />
-      </ListItem>
-      <ListItem>
-        <ListItemText
-          primary="1 dash - Grenadine"
-        />
-      </ListItem>
+      {ingredient!==null?ingredient.map((value,key)=>{
+        return<ListItem key={key}>
+          <ListItemText
+            primary={`${measure[key]!==undefined?measure[key]+` - `:''}` + `${value}`}
+          />  
+        </ListItem>
+      }):<ListItem>
+          <ListItemText
+            primary="loding"
+          />
+        </ListItem>
+      }
     </List>
   )
 
@@ -91,12 +111,11 @@ export default function DisplayRandomCocktail({coctailData}) {
       {ingredientList}
       <Typography paragraph>Method:</Typography>
       <Typography paragraph>
-        "Mix Kahlua and 151 in glass. Quickly add ice and pour grenadine over ice to give ice red tint.",
+        {coctailData.strInstructions}
       </Typography>
     </CardContent>
   )
 
-  console.log(coctailData)
   return (
     <Card className={classes.root}>
       {cardHeader}
