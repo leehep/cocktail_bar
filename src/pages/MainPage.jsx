@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react';
 import TopNevBar from '../components/TopNevBar';
-import DisplayRandomCocktail from '../components/DisplayRandomCocktail'
+import DisplayRandomCocktail from '../components/DisplayRandomCocktail';
+import CocktailPage from './CocktailPage';
 import axios from 'axios';
 const _ = require('lodash');
 
@@ -33,7 +34,8 @@ function MainPage(){
   return(
     <div>
       <TopNevBar/>
-      <div 
+      <CocktailPage/>
+      {/* <div 
         style={{
           display: "flex",
           flexDirection: "column",
@@ -46,7 +48,6 @@ function MainPage(){
         }}
       >
         <p>
-          {/* add css */}
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
           Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
@@ -57,7 +58,7 @@ function MainPage(){
           <DisplayRandomCocktail coctailData = {randomCocatail}/>:
           "no display loading"
         }
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -55,7 +55,6 @@ export default function DisplayRandomCocktail({coctailData}) {
       result.push(value)
       return result
     },[]);
-    // const temp = Object.value(measureObj)
     const measureArr = _.transform({...measureObj},(result,value)=>{
       result.push(value)
       return result
