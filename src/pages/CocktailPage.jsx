@@ -20,7 +20,7 @@ export default function CocktailPage(){
   const [loading , setLoading] = React.useState(false);
   const [alcoholData, setAlcoholData] = useState([]);
   const [currentPage,setCorrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
+  const [postsPerPage] = useState(9);
 
   
   useEffect(()=>{
@@ -33,9 +33,6 @@ export default function CocktailPage(){
 
     fatchAlcoholeData();
   },[])
-  
-  console.log(alcoholData)
-
 
   const handleChange = (e,newValue)=>{
     setValue(newValue)
@@ -65,6 +62,7 @@ export default function CocktailPage(){
       <DisplayCocktailBar data={currentPosts} loading={loading}/>
       
       <Pagination 
+        style={{paddingTop:16}}
         count={Math.ceil(alcoholData.length/postsPerPage)} 
         variant="outlined" 
         color="primary"
