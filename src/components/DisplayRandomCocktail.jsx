@@ -13,7 +13,6 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Instagram } from '@material-ui/icons';
 const _ = require('lodash');
 
 

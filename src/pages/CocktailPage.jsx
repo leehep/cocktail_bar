@@ -12,7 +12,14 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
+  tabs: {
+    '& button': {
+      minWidth: 50
+    }
+  }
 });
+
+const upperCaseAlp = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
 export default function CocktailPage(){
   const classes = useStyles();
@@ -22,20 +29,20 @@ export default function CocktailPage(){
   const [currentPage,setCorrentPage] = useState(1);
   const [postsPerPage] = useState(9);
 
-  
-  useEffect(()=>{
-    const fatchAlcoholeData = async ()=>{
-      setLoading(true);
-      const res = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic');
-      setAlcoholData(res.data.drinks);
-      setLoading(false);
-    }
+  const fatchAlcoholeData = async (char)=>{
+    setLoading(true);
+    const res = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${upperCaseAlp[char]}`);
+    setAlcoholData(res.data.drinks);
+    setLoading(false);
+  }
 
-    fatchAlcoholeData();
+  useEffect(()=>{
+    fatchAlcoholeData(0);
   },[])
 
   const handleChange = (e,newValue)=>{
     setValue(newValue)
+    fatchAlcoholeData(newValue);
   }
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -46,17 +53,24 @@ export default function CocktailPage(){
     setCorrentPage(v)
   }
 
+  const displayTabs=(
+    upperCaseAlp.map((char,key)=>{
+      return<Tab key={key} label={char} />
+    })
+  )
+
   return (
     <div style={{marginTop:2}}>
       <Paper className={classes.root}>
         <Tabs 
           value = {value}
+          className={classes.tabs}
           onChange = {handleChange}
           indicatorColor="primary"
-          centered
+          variant="scrollable"
+          scrollButtons="auto"
         >
-          <Tab label="alcole"/>
-          <Tab label="non alcole"/>
+          {displayTabs}
         </Tabs>
       </Paper>
       <DisplayCocktailBar data={currentPosts} loading={loading}/>
