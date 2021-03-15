@@ -7,16 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import LocalBarIcon from '@material-ui/icons/LocalBar';
+import HomeIcon from '@material-ui/icons/Home';
+import {Link, useLocation} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   title: {
     display: 'none',
@@ -64,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
   sectionDesktop: {
     display: 'flex',
   },
+  onFocos:{
+    color:'#6d1b7b',
+    backgroundColor:'#f5eaf7',
+  },
+  notFocos:{
+    color:'#af52bf'
+  },
 }));
 
 export default function TopNevBar() {
@@ -72,6 +78,8 @@ export default function TopNevBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-search-account-menu';
+
+  const location = useLocation()
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -111,19 +119,34 @@ export default function TopNevBar() {
     </div>
   )
 
+  const linkNav = (<div>
+      <Link to="/" >
+        <IconButton
+          edge='start'
+          className={location.pathname==='/'?classes.onFocos:classes.notFocos}
+          color='inherit'
+          aria-label="open drawer"
+        >
+          <HomeIcon/>
+        </IconButton>
+      </Link>
+      <Link to='/cocktail'>
+        <IconButton
+          edge='start'
+          className={location.pathname==='/cocktail'?classes.onFocos:classes.notFocos}
+          color='inherit'
+          aria-label="open drawer"
+        >
+          <LocalBarIcon/>
+        </IconButton>
+      </Link>
+    </div>);
+
   return (
     <div className={classes.grow}>
       <AppBar position="static" color='transparent'>
         <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label="open drawer"
-          >
-            {/* menu left side */}
-            <MenuIcon/>
-          </IconButton>
+          {linkNav}
           <Typography className={classes.title} variant="h6" noWrap>
             cocktail bar
           </Typography>

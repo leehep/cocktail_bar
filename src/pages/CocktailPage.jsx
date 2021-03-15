@@ -23,7 +23,7 @@ const upperCaseAlp = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O
 
 export default function CocktailPage(){
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [tabValue, setValue] = React.useState(0);
   const [loading , setLoading] = React.useState(false);
   const [alcoholData, setAlcoholData] = useState([]);
   const [currentPage,setCorrentPage] = useState(1);
@@ -40,9 +40,10 @@ export default function CocktailPage(){
     fatchAlcoholeData(0);
   },[])
 
-  const handleChange = (e,newValue)=>{
+  const handleTabsChange = (e,newValue)=>{
     setValue(newValue)
     fatchAlcoholeData(newValue);
+    setCorrentPage(1);
   }
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -63,9 +64,9 @@ export default function CocktailPage(){
     <div style={{marginTop:2}}>
       <Paper className={classes.root}>
         <Tabs 
-          value = {value}
+          value = {tabValue}
           className={classes.tabs}
-          onChange = {handleChange}
+          onChange = {handleTabsChange}
           indicatorColor="primary"
           variant="scrollable"
           scrollButtons="auto"
@@ -81,6 +82,8 @@ export default function CocktailPage(){
         variant="outlined" 
         color="primary"
         onChange={handlePageChange}
+        defaultPage={1}
+        page={currentPage}
       />
 
     </div>

@@ -3,10 +3,15 @@ import TopNevBar from '../components/TopNevBar';
 import DisplayRandomCocktail from '../components/DisplayRandomCocktail';
 import CocktailPage from './CocktailPage';
 import axios from 'axios';
+import { Container } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter as Router,
+         Switch,
+         Route } from 'react-router-dom';
+
 const _ = require('lodash');
 
-
-// const style = {
+// const useStyles = makeStyles((theme) => ({
 //   p:{
 //     display: "flex",
 //     flexDirection: "column",
@@ -14,9 +19,10 @@ const _ = require('lodash');
 //     justifyContent: "space-around",
 //     alignItems: "center"
 //   }
-// }
+// }));
 
 function MainPage(){
+  // const classes = useStyles();
   const [randomCocatail, setRandomCocatail] = React.useState(null);
   
   useEffect(()=>{
@@ -32,34 +38,41 @@ function MainPage(){
   },[])
 
   return(
-    <div>
+    <Router>
       <TopNevBar/>
-      <CocktailPage/>
-      {/* <div 
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          justifyContent: "space-around",
-          alignItems: "center",
-          // alignContent: 'c enter',
-          width: '70%',
-          margin: 'auto'
-        }}
-      >
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        {randomCocatail!==null?
-          <DisplayRandomCocktail coctailData = {randomCocatail}/>:
-          "no display loading"
-        }
-      </div> */}
-    </div>
+      <Container>
+        <Switch>
+          <Route exact path="/">
+            <div 
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flexWrap: "nowrap",
+                justifyContent: "space-around",
+                alignItems: "center",
+                width: '70%',
+                margin: 'auto'
+              }}
+            >
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+              {randomCocatail!==null?
+                <DisplayRandomCocktail coctailData = {randomCocatail}/>:
+                "no display loading"
+              }
+            </div>
+          </Route>
+          <Route path="/cocktail">
+            <CocktailPage/>
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   )
 }
 

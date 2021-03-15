@@ -98,13 +98,12 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
     }
   },[fullDrinkData]);
 
-
   const ingredientList = (
     <List dense={true}>
       {ingredient!==null?ingredient.map((value,key)=>{
         return<ListItem key={key}>
           <ListItemText
-            primary={`${measure[key]!==undefined?measure[key]+` - `:''}` + `${value}`}
+            primary={`${measure[key]!==undefined&&measure[key]!==""?measure[key]+` - `:''}` + `${value}`}
           />  
         </ListItem>
       }):<ListItem>
