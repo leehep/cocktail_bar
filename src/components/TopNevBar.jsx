@@ -119,34 +119,34 @@ export default function TopNevBar() {
     </div>
   )
 
-  const linkNav = (<div>
-      <Link to="/" >
-        <IconButton
-          edge='start'
-          className={location.pathname==='/'?classes.onFocos:classes.notFocos}
-          color='inherit'
-          aria-label="open drawer"
-        >
-          <HomeIcon/>
-        </IconButton>
-      </Link>
-      <Link to='/cocktail'>
-        <IconButton
-          edge='start'
-          className={location.pathname==='/cocktail'?classes.onFocos:classes.notFocos}
-          color='inherit'
-          aria-label="open drawer"
-        >
-          <LocalBarIcon/>
-        </IconButton>
-      </Link>
-    </div>);
+  // const linkNav = (<div>
+      
+  //   </div>);
 
   return (
     <div className={classes.grow}>
       <AppBar position="static" color='transparent'>
         <Toolbar>
-          {linkNav}
+          <Link to="/" >
+            <IconButton
+              edge='start'
+              className={location.pathname==='/'?classes.onFocos:classes.notFocos}
+              color='inherit'
+              aria-label="open drawer"
+            >
+              <HomeIcon/>
+            </IconButton>
+          </Link>
+          <Link to='/cocktail'>
+            <IconButton
+              edge='start'
+              className={location.pathname==='/cocktail'?classes.onFocos:classes.notFocos}
+              color='inherit'
+              aria-label="open drawer"
+            >
+              <LocalBarIcon/>
+            </IconButton>
+          </Link>
           <Typography className={classes.title} variant="h6" noWrap>
             cocktail bar
           </Typography>

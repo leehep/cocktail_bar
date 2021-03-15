@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect , useContext} from 'react';
 import TopNevBar from '../components/TopNevBar';
 import DisplayRandomCocktail from '../components/DisplayRandomCocktail';
 import CocktailPage from './CocktailPage';
@@ -24,17 +24,19 @@ const _ = require('lodash');
 function MainPage(){
   // const classes = useStyles();
   const [randomCocatail, setRandomCocatail] = React.useState(null);
-  
+  const getRandomCocktail = async ()=>{
+    // const res = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=12188`);
+    const res = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+    const tempRandomCoctail=_.pickBy(res.data.drinks[0], (ingredient)=>{
+      if (ingredient!==''){
+        return ingredient !== null
+      }
+    });
+    setRandomCocatail(tempRandomCoctail);
+  };
+
   useEffect(()=>{
-    axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php')
-    .then((res)=>{
-        const tempRandomCoctail=_.pickBy(res.data.drinks[0], (ingredient)=>{
-          if (ingredient!==''){
-            return ingredient !== null
-          }
-        });
-        setRandomCocatail(tempRandomCoctail)
-      })
+    getRandomCocktail();
   },[])
 
   return(

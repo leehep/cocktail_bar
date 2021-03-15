@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoritlistContext from '../context/FavoritlistContext';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
   Card,
@@ -59,24 +61,35 @@ const useStyles = makeStyles((theme) => ({
 export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktailId}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [loading , setLoading] = React.useState(false);
   const [fullDrinkData,setFullDrinkData] = React.useState(null);
   const [ingredient, setIngredient]=React.useState(null);
   const [measure, setMeasure]=React.useState(null);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-    // CREATE CALL ONLY WHEN TRUE
-    callDrinkFullData(cocktailId);
-  };
+  const {localFavorit,addToFavorit,removeFromFavorit} = useContext(FavoritlistContext);
+  const [isInFavList,setIsInFavList] = React.useState(false);
+  
+  const chakeifinfavorit =()=>{
+    const tempCocktailIndex = _.find(localFavorit,(obj)=>{
+      return obj.idDrink === cocktailId
+    })
+    if (tempCocktailIndex){
+      setIsInFavList(true)
+    }
+  }
 
   const callDrinkFullData = async (drinkId)=>{
-    setLoading(true);
     const res = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkId}`)
-    console.log(res.data.drinks)
-    setFullDrinkData(res.data.drinks[0]);
-    setLoading(false);
+    const tempRandomCoctail=_.pickBy(res.data.drinks[0], (ingredient)=>{
+      if (ingredient!==''){
+        return ingredient !== null
+      }
+    });
+    // console.log(res.data.drinks)
+    setFullDrinkData(tempRandomCoctail);
   }
+
+  useEffect(()=>{
+    chakeifinfavorit();
+  },[])
   
   useEffect(()=>{
     if(fullDrinkData&&expanded){
@@ -98,12 +111,35 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
     }
   },[fullDrinkData]);
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+    // CREATE CALL ONLY WHEN TRUE
+    callDrinkFullData(cocktailId);
+  };
+
+  const handleFav = ()=>{
+    console.log('handle favorit')
+    const tempCocktailToHandle = {
+      idDrink:cocktailId,
+      strDrink:cocktailName,
+      strDrinkThumb:cocktailImage
+    }
+
+    if (!isInFavList){
+      addToFavorit(tempCocktailToHandle);
+      setIsInFavList(true)
+    }else{
+      removeFromFavorit(cocktailId);
+      setIsInFavList(false)
+    }
+  }
+
   const ingredientList = (
     <List dense={true}>
       {ingredient!==null?ingredient.map((value,key)=>{
         return<ListItem key={key}>
           <ListItemText
-            primary={`${measure[key]!==undefined&&measure[key]!==""?measure[key]+` - `:''}` + `${value}`}
+            primary={`${measure[key]!==undefined?measure[key]+` - `:''}` + `${value}`}
           />  
         </ListItem>
       }):<ListItem>
@@ -138,6 +174,11 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
         )}
     </Collapse>
 
+  const displayFavBtn=(
+    <IconButton aria-label="add to favorites" onClick={handleFav}>
+      {isInFavList?<FavoriteIcon/>:<FavoriteBorderOutlinedIcon/>}
+    </IconButton>
+  )
   return (
     <Card >
       <div className={classes.preCountiner}>
@@ -153,9 +194,7 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
             </Typography>
           </CardContent>
           <CardActions className={classes.actionBtn} disableSpacing>
-            <IconButton aria-label="add to favorites" disabled>
-              <FavoriteIcon />
-            </IconButton>
+            {displayFavBtn}
             <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded,
