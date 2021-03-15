@@ -7,14 +7,10 @@ import {
   Card,
   CardHeader,
   CardMedia,
-  CardContent,
   CardActions,
   IconButton,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
 } from '@material-ui/core';
+import DisplayCocktailRecipe from './DisplayCocktailRecipe';
 
 const _ = require('lodash');
 
@@ -42,74 +38,55 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-export default function DisplayRandomCocktail({coctailData}) {
+export default function DisplayRandomCocktail({cocktailData}) {
   const classes = useStyles();
-  const [ingredient, setIngredient]=React.useState(null);
-  const [measure, setMeasure]=React.useState(null);
   const {localFavorit,addToFavorit,removeFromFavorit} = useContext(FavoritlistContext);
   const [isInFavList,setIsInFavList] = React.useState(false);
   
   const chakeifinfavorit =()=>{
     const tempCocktailIndex = _.find(localFavorit,(obj)=>{
-      return obj.idDrink === coctailData.idDrink
+      return obj.idDrink === cocktailData.idDrink
     })
     if (tempCocktailIndex){
       setIsInFavList(true)
     }
   }
 
- 
   useEffect(()=>{
-    const ingredientObj = _.pickBy(coctailData,(value,key)=>{
-      return key.includes('strIngredient')});
-    const measureObj = _.pickBy(coctailData,(value,key)=>{
-      return key.includes('strMeasure')});
-    const ingredientArr=_.transform({...ingredientObj},(result,value)=>{
-      result.push(value)
-      return result
-    },[]);
-    const measureArr = _.transform({...measureObj},(result,value)=>{
-      result.push(value)
-      return result
-    },[]);
-
-    setIngredient(ingredientArr)
-    setMeasure(measureArr) 
     chakeifinfavorit();
   },[]);
 
   const cardHeader = (
     <CardHeader
-      title={coctailData.strDrink}
-      subheader={`${coctailData.strAlcoholic} ${coctailData.strCategory}`}
+      title={cocktailData.strDrink}
+      subheader={`${cocktailData.strAlcoholic} ${cocktailData.strCategory}`}
     />
   )
 
   const cardMedia = (
     <CardMedia
       className={classes.media}
-      image={coctailData.strDrinkThumb}
-      title={coctailData.strDrink}
+      image={cocktailData.strDrinkThumb}
+      title={cocktailData.strDrink}
     />
   )
 
   const handleFav = ()=>{
     console.log('handle favorit')
     const tempCocktailToHandle = {
-      idDrink:coctailData.idDrink,
-      strDrink:coctailData.strDrink,
-      strDrinkThumb:coctailData.strDrinkThumb
+      idDrink:cocktailData.idDrink,
+      strDrink:cocktailData.strDrink,
+      strDrinkThumb:cocktailData.strDrinkThumb
     }
 
     if (!isInFavList){
       addToFavorit(tempCocktailToHandle);
       setIsInFavList(true)
     }else{
-      removeFromFavorit(coctailData.idDrink);
+      removeFromFavorit(cocktailData.idDrink);
       setIsInFavList(false)
     }
   }
-
 
 
   const cardActions = (
@@ -120,40 +97,12 @@ export default function DisplayRandomCocktail({coctailData}) {
     </CardActions>
   )
 
-  const ingredientList = (
-    <List dense={true}>
-      {ingredient!==null?ingredient.map((value,key)=>{
-        return<ListItem key={key}>
-          <ListItemText
-            primary={`${measure[key]!==undefined?measure[key]+` - `:''}` + `${value}`}
-          />  
-        </ListItem>
-      }):<ListItem>
-          <ListItemText
-            primary="loding"
-          />
-        </ListItem>
-      }
-    </List>
-  )
-
-  const collapseText = (
-    <CardContent>
-      <Typography>Ingredient:</Typography>
-      {ingredientList}
-      <Typography paragraph>Method:</Typography>
-      <Typography paragraph>
-        {coctailData.strInstructions}
-      </Typography>
-    </CardContent>
-  )
-
   return (
     <Card className={classes.root}>
       {cardHeader}
       {cardMedia}
       {cardActions}
-      {collapseText}
+      <DisplayCocktailRecipe cocktailData={cocktailData} expanded={true} fromRandom={true} />
     </Card>
   );
 }

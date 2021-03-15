@@ -99,7 +99,11 @@ export default function TopNevBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>favorit</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/favorit">
+          favorit
+        </Link>
+      </MenuItem>
     </Menu>
   )
   
@@ -119,9 +123,6 @@ export default function TopNevBar() {
     </div>
   )
 
-  // const linkNav = (<div>
-      
-  //   </div>);
 
   return (
     <div className={classes.grow}>

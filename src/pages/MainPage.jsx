@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router,
          Switch,
          Route } from 'react-router-dom';
+import FavoritPage from './FavoritPage';
 
 const _ = require('lodash');
 
@@ -25,7 +26,6 @@ function MainPage(){
   // const classes = useStyles();
   const [randomCocatail, setRandomCocatail] = React.useState(null);
   const getRandomCocktail = async ()=>{
-    // const res = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=12188`);
     const res = await axios.get('https://www.thecocktaildb.com/api/json/v1/1/random.php');
     const tempRandomCoctail=_.pickBy(res.data.drinks[0], (ingredient)=>{
       if (ingredient!==''){
@@ -71,6 +71,9 @@ function MainPage(){
           </Route>
           <Route path="/cocktail">
             <CocktailPage/>
+          </Route>
+          <Route path="/favorit">
+            <FavoritPage/>
           </Route>
         </Switch>
       </Container>
