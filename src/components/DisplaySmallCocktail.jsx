@@ -23,8 +23,8 @@ const _ = require('lodash');
 const useStyles = makeStyles((theme) => ({
   preCountiner: {
     display: 'flex',
-    maxWidth:360,
-    minWidth:360,
+    // maxWidth:315,
+    minWidth:315,
     maxHeight:120,
     justifyContent:'space-between'
   },
@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
   },
   collapse:{
       maxWidth:360
+  },
+  favbtn:{
+    color:"#ef9a9a"
   },
 }));
 
@@ -114,7 +117,11 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
   }
 
   const displayFavBtn=(
-    <IconButton aria-label="add to favorites" onClick={handleFav}>
+    <IconButton 
+      aria-label="add to favorites" 
+      onClick={handleFav}
+      className={classes.favbtn}
+    >
       {isInFavList?<FavoriteIcon/>:<FavoriteBorderOutlinedIcon/>}
     </IconButton>
   )

@@ -3,7 +3,7 @@ import TopNevBar from '../components/TopNevBar';
 import DisplayRandomCocktail from '../components/DisplayRandomCocktail';
 import CocktailPage from './CocktailPage';
 import axios from 'axios';
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router,
          Switch,
@@ -56,15 +56,10 @@ function MainPage(){
                 margin: 'auto'
               }}
             >
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              
+              <Typography variant="h5">Random Cocktail</Typography>
               {randomCocatail!==null?
-                <DisplayRandomCocktail coctailData = {randomCocatail}/>:
+                <DisplayRandomCocktail cocktailData = {randomCocatail}/>:
                 "no display loading"
               }
             </div>
@@ -72,7 +67,7 @@ function MainPage(){
           <Route path="/cocktail">
             <CocktailPage/>
           </Route>
-          <Route path="/favorit">
+          <Route path="/favorite">
             <FavoritPage/>
           </Route>
         </Switch>

@@ -5,13 +5,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalBarIcon from '@material-ui/icons/LocalBar';
 import HomeIcon from '@material-ui/icons/Home';
 import {Link, useLocation} from 'react-router-dom';
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -22,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    color:'#80cbc4',
+    paddingLeft:10,
   },
   search: {
     position: 'relative',
@@ -64,49 +65,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   onFocos:{
-    color:'#6d1b7b',
-    backgroundColor:'#f5eaf7',
+    color:'#80cbc4',
+    backgroundColor:'#ebf1af',
   },
   notFocos:{
-    color:'#af52bf'
+    color:'#80cbc4'
   },
 }));
 
 export default function TopNevBar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
   const menuId = 'primary-search-account-menu';
 
   const location = useLocation()
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleProfileMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const renderPersonalMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{vertical:'top',horizontal:'right'}}
-      id={menuId}
-      transformOrigin={{vertical:'top',horizontal:'right'}}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/favorit">
-          favorit
-        </Link>
-      </MenuItem>
-    </Menu>
-  )
-  
   const search = (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -123,6 +101,24 @@ export default function TopNevBar() {
     </div>
   )
 
+  const rightSideBtn = <div className={classes.sectionDesktop}>
+    <Link to="/favorite">
+      <IconButton 
+        className={location.pathname==='/favorite'?classes.onFocos:classes.notFocos}
+      >
+        <FavoriteTwoToneIcon/>
+      </IconButton>
+    </Link>
+    <IconButton
+      edge="end"
+      aria-controls={menuId}
+      className={classes.notFocos}
+      // disabled
+      // onClick={handleProfileMenuOpen}
+    >
+      <AccountCircle/>
+    </IconButton>
+  </div>
 
   return (
     <div className={classes.grow}>
@@ -153,22 +149,9 @@ export default function TopNevBar() {
           </Typography>
           {search}
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            {/* right side btn */}
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          {rightSideBtn}
         </Toolbar>
       </AppBar>
-      {renderPersonalMenu}
     </div>
   );
 }

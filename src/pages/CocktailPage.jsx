@@ -16,6 +16,10 @@ const useStyles = makeStyles({
     '& button': {
       minWidth: 50
     }
+  },
+  pagination:{
+    paddingTop:16,
+    color:'red'
   }
 });
 
@@ -70,6 +74,8 @@ export default function CocktailPage(){
           indicatorColor="primary"
           variant="scrollable"
           scrollButtons="auto"
+          indicatorColor="secondary"
+          textColor="secondary"
         >
           {displayTabs}
         </Tabs>
@@ -77,10 +83,11 @@ export default function CocktailPage(){
       <DisplayCocktailBar data={currentPosts} loading={loading}/>
       
       <Pagination 
-        style={{paddingTop:16}}
+        // style={{}}
+        className={classes.pagination}
         count={Math.ceil(alcoholData.length/postsPerPage)} 
         variant="outlined" 
-        color="primary"
+        color="secondary"
         onChange={handlePageChange}
         defaultPage={1}
         page={currentPage}

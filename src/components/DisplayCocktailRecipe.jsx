@@ -13,7 +13,7 @@ const _ = require('lodash');
 
 const useStyles = makeStyles(()=>({
   collapse:{
-    maxWidth:360
+    maxWidth:315
   },
 }));
 

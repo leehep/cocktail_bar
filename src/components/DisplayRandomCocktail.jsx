@@ -5,37 +5,45 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
-  CardHeader,
   CardMedia,
   CardActions,
   IconButton,
+  CardContent,
+  Typography
 } from '@material-ui/core';
 import DisplayCocktailRecipe from './DisplayCocktailRecipe';
 
 const _ = require('lodash');
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 345,
-  },
   media: {
     height: 0,
     paddingTop: '100%', 
   },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
+  drinkPreview: {
+    display: 'flex',
+    flexDirection: 'column',
+    width:'60%'
   },
-  expandOpen: {
-    transform: 'rotate(180deg)',
+  favbtn:{
+    color:"#ef9a9a"
   },
-  
-  // avatar: {
-  //   backgroundColor: red[500],
-  // },
+  preCountiner: {
+    display: 'flex',
+    minWidth:315,
+    maxHeight:120,
+    justifyContent:'space-between'
+  },
+  cover: {
+    width:128,
+    height:128,
+  },
+  drinkTitle: {
+    flex: '1 0 auto',
+  },
+  actionBtn:{
+    padding:0
+  },
 }));
 
 export default function DisplayRandomCocktail({cocktailData}) {
@@ -56,21 +64,6 @@ export default function DisplayRandomCocktail({cocktailData}) {
     chakeifinfavorit();
   },[]);
 
-  const cardHeader = (
-    <CardHeader
-      title={cocktailData.strDrink}
-      subheader={`${cocktailData.strAlcoholic} ${cocktailData.strCategory}`}
-    />
-  )
-
-  const cardMedia = (
-    <CardMedia
-      className={classes.media}
-      image={cocktailData.strDrinkThumb}
-      title={cocktailData.strDrink}
-    />
-  )
-
   const handleFav = ()=>{
     console.log('handle favorit')
     const tempCocktailToHandle = {
@@ -88,21 +81,36 @@ export default function DisplayRandomCocktail({cocktailData}) {
     }
   }
 
-
-  const cardActions = (
-    <CardActions disableSpacing>
-      <IconButton aria-label="add to favorites" onClick={handleFav}>
-        {isInFavList?<FavoriteIcon/>:<FavoriteBorderOutlinedIcon/>}
-      </IconButton>
-    </CardActions>
+  const tempDisplat = (
+    <Card>
+      <div className={classes.preCountiner}> 
+        <CardMedia
+          className={classes.cover}
+          image={cocktailData.strDrinkThumb}
+          title={cocktailData.strDrink}
+        />
+        <div className={classes.drinkPreview}>
+          <CardContent className={classes.drinkTitle}>
+            <Typography>{cocktailData.strDrink}</Typography>
+          </CardContent>
+          <CardActions>
+            <IconButton 
+              aria-label="add to favorites" 
+              onClick={handleFav}
+              className={classes.favbtn}
+            >
+              {isInFavList?<FavoriteIcon/>:<FavoriteBorderOutlinedIcon/>}
+            </IconButton>
+          </CardActions>
+        </div>
+      </div>
+      <DisplayCocktailRecipe cocktailData={cocktailData} expanded={true} fromRandom={true} />
+    </Card>
   )
 
   return (
-    <Card className={classes.root}>
-      {cardHeader}
-      {cardMedia}
-      {cardActions}
-      <DisplayCocktailRecipe cocktailData={cocktailData} expanded={true} fromRandom={true} />
-    </Card>
+    <div>
+      {tempDisplat}
+    </div>
   );
 }
