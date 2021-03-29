@@ -91,6 +91,7 @@ export default function TopNevBar() {
         <SearchIcon />
       </div>
       <InputBase
+        disabled
         placeholder="Search…"
         classes={{
           root: classes.inputRoot,
@@ -113,7 +114,6 @@ export default function TopNevBar() {
       edge="end"
       aria-controls={menuId}
       className={classes.notFocos}
-      // disabled
       // onClick={handleProfileMenuOpen}
     >
       <AccountCircle/>

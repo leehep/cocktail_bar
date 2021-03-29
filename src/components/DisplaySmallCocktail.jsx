@@ -13,6 +13,8 @@ import {
   IconButton,
   Typography,
   Collapse,
+  Popover,
+  Button,
 } from '@material-ui/core';
 import axios from 'axios';
 import DisplayCocktailRecipe from './DisplayCocktailRecipe';
@@ -23,7 +25,7 @@ const _ = require('lodash');
 const useStyles = makeStyles((theme) => ({
   preCountiner: {
     display: 'flex',
-    // maxWidth:315,
+    maxWidth:315,
     minWidth:315,
     maxHeight:120,
     justifyContent:'space-between'
@@ -60,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
   favbtn:{
     color:"#ef9a9a"
   },
+  // typography: {
+  //   padding: theme.spacing(2),
+  // },
 }));
 
 export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktailId}) {
@@ -68,6 +73,8 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
   const [fullDrinkData,setFullDrinkData] = React.useState(null);
   const {localFavorit,addToFavorit,removeFromFavorit} = useContext(FavoritlistContext);
   const [isInFavList,setIsInFavList] = React.useState(false);
+  const [anchorEl , setAnchorEl] = React.useState(null);
+
   
   const chakeifinfavorit =()=>{
     const tempCocktailIndex = _.find(localFavorit,(obj)=>{
@@ -85,7 +92,6 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
         return ingredient !== null
       }
     });
-    // console.log(res.data.drinks)
     setFullDrinkData(tempRandomCoctail);
   }
 
@@ -99,7 +105,7 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
     callDrinkFullData(cocktailId);
   };
 
-  const handleFav = ()=>{
+  const handleFav = (e)=>{
     console.log('handle favorit')
     const tempCocktailToHandle = {
       idDrink:cocktailId,
@@ -111,10 +117,50 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
       addToFavorit(tempCocktailToHandle);
       setIsInFavList(true)
     }else{
-      removeFromFavorit(cocktailId);
-      setIsInFavList(false)
+      setAnchorEl(e.currentTarget);
     }
   }
+
+  const handleClose = () =>{setAnchorEl(null);};
+  const open = Boolean(anchorEl);
+  const id = open ? 'are-you-shor' : undefined;
+  const handleRemoveBtn = ()=>{
+    removeFromFavorit(cocktailId);
+    setIsInFavList(false)
+    handleClose()
+  }
+
+  const popOver = (
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+    >
+      <div style={{padding:20,textAlign:'center'}}>
+        <Typography > are you sore to remove ?</Typography>
+        <Button 
+          size="small" 
+          variant="outlined" 
+          color="secondary"
+          onClick={handleRemoveBtn}>Yes</Button>
+        <Button 
+          size="small" 
+          variant="outlined" 
+          color="secondary" 
+          style={{marginLeft:5}}
+          onClick={handleClose}>No</Button>
+      </div>
+    </Popover>
+  )
 
   const displayFavBtn=(
     <IconButton 
@@ -142,6 +188,7 @@ export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktai
           </CardContent>
           <CardActions className={classes.actionBtn} disableSpacing>
             {displayFavBtn}
+            {popOver}
             <IconButton
               className={clsx(classes.expand, {
                 [classes.expandOpen]: expanded,

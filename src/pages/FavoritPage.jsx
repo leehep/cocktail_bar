@@ -2,6 +2,7 @@ import React,{ useState , useContext } from 'react';
 import DisplayCocktailBar from '../components/DisplayBarCocktail';
 import Pagination from '@material-ui/lab/Pagination';
 import FavoritlistContext from '../context/FavoritlistContext';
+import { Typography } from '@material-ui/core';
 
 export default function FavoritPage(){
   const [loading] = React.useState(false);
@@ -20,13 +21,16 @@ export default function FavoritPage(){
   
   return(
     <div>
+      <Typography
+        variant="h3" 
+      >Favorits</Typography>
+
       <DisplayCocktailBar data={currentPosts} loading={loading}/>
-      
       <Pagination 
         style={{paddingTop:16}}
         count={Math.ceil(localFavorit.length/postsPerPage)} 
         variant="outlined" 
-        color="primary"
+        color='secondary'
         onChange={handlePageChange}
         defaultPage={1}
         page={currentPage}
