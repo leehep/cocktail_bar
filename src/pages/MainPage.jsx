@@ -3,7 +3,7 @@ import TopNevBar from '../components/TopNevBar';
 import DisplayRandomCocktail from '../components/DisplayRandomCocktail';
 import CocktailPage from './CocktailPage';
 import axios from 'axios';
-import { Container, Divider, Typography } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter as Router,
          Switch,

@@ -62,9 +62,6 @@ const useStyles = makeStyles((theme) => ({
   favbtn:{
     color:"#ef9a9a"
   },
-  // typography: {
-  //   padding: theme.spacing(2),
-  // },
 }));
 
 export default function DisplaySmallCocktail({cocktailName,cocktailImage,cocktailId}) {
