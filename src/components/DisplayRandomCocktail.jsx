@@ -88,7 +88,7 @@ export default function DisplayRandomCocktail({cocktailData}) {
   }
 
   const open = Boolean(anchorEl);
-  const id = open ? 'are-you-shor' : undefined;
+  const id = open ? 'are-you-sure' : undefined;
   const handleRemoveBtn = ()=>{
     removeFromFavorit(cocktailData.idDrink);
     setIsInFavList(false)
@@ -111,7 +111,7 @@ export default function DisplayRandomCocktail({cocktailData}) {
       }}
     >
       <div style={{padding:20,textAlign:'center'}}>
-        <Typography > are you sore to remove ?</Typography>
+        <Typography > Are you sure ?</Typography>
         <Button 
           size="small" 
           variant="outlined" 
