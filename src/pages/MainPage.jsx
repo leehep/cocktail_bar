@@ -5,9 +5,10 @@ import CocktailPage from './CocktailPage';
 import axios from 'axios';
 import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Router,
-         Switch,
+import { BrowserRouter as Switch,
          Route } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom'
+
 import FavoritPage from './FavoritPage';
 
 const _ = require('lodash');
@@ -44,11 +45,11 @@ function MainPage(){
   },[])
 
   return(
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <TopNevBar/>
       <Container>  
         <Switch>
-          <Route exact path="cocktail_bar/">
+          <Route exact path="/">
             <div className={classes.root}>
               <Typography>
                 <br/>
@@ -69,10 +70,10 @@ function MainPage(){
               }
             </div>
           </Route>
-          <Route path="cocktail_bar/cocktail">
+          <Route path="/cocktail">
             <CocktailPage/>
           </Route>
-          <Route path="cocktail_bar/favorite">
+          <Route path="/favorite">
             <FavoritPage/>
           </Route>
         </Switch>
