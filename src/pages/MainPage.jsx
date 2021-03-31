@@ -48,7 +48,7 @@ function MainPage(){
       <TopNevBar/>
       <Container>  
         <Switch>
-          <Route exact path="/">
+          <Route exact path="cocktail_bar/">
             <div className={classes.root}>
               <Typography>
                 <br/>
@@ -69,10 +69,10 @@ function MainPage(){
               }
             </div>
           </Route>
-          <Route path="/cocktail">
+          <Route path="cocktail_bar/cocktail">
             <CocktailPage/>
           </Route>
-          <Route path="/favorite">
+          <Route path="cocktail_bar/favorite">
             <FavoritPage/>
           </Route>
         </Switch>
