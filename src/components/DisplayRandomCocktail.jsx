@@ -80,7 +80,7 @@ export default function DisplayRandomCocktail({cocktailData}) {
     }
 
     if (!isInFavList){
-      // addToFavorit(tempCocktailToHandle);
+      addToFavorit(tempCocktailToHandle);
       setIsInFavList(true)
     }else{
       setAnchorEl(e.currentTarget);

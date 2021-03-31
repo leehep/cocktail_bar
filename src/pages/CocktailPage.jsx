@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import DisplayCocktailBar from '../components/DisplayBarCocktail';
 import Pagination from '@material-ui/lab/Pagination';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -52,7 +53,7 @@ export default function CocktailPage(){
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = alcoholData.slice(indexOfFirstPost,indexOfLastPost);
+  const currentPosts = alcoholData!==null?alcoholData.slice(indexOfFirstPost,indexOfLastPost):[];
 
   const handlePageChange=(e,v)=>{
     setCorrentPage(v)
@@ -62,6 +63,28 @@ export default function CocktailPage(){
     upperCaseAlp.map((char,key)=>{
       return<Tab key={key} label={char} />
     })
+  )
+
+  const mainDisplay = (
+    <div>
+      <DisplayCocktailBar data={currentPosts} loading={loading}/>
+      
+      <Pagination 
+        className={classes.pagination}
+        count={alcoholData!==null?Math.ceil(alcoholData.length/postsPerPage):0} 
+        variant="outlined" 
+        color="secondary"
+        onChange={handlePageChange}
+        defaultPage={1}
+        page={currentPage}
+      />
+    </div>
+  )
+
+  const noCocktail = (
+    <div>
+      <Typography>no cocktail :(</Typography>
+    </div>
   )
 
   return (
@@ -80,19 +103,8 @@ export default function CocktailPage(){
           {displayTabs}
         </Tabs>
       </Paper>
-      <DisplayCocktailBar data={currentPosts} loading={loading}/>
-      
-      <Pagination 
-        // style={{}}
-        className={classes.pagination}
-        count={Math.ceil(alcoholData.length/postsPerPage)} 
-        variant="outlined" 
-        color="secondary"
-        onChange={handlePageChange}
-        defaultPage={1}
-        page={currentPage}
-      />
-
+      {alcoholData!==null?(mainDisplay):(noCocktail)}
     </div>
   )
+
 }

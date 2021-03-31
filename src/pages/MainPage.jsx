@@ -5,9 +5,9 @@ import CocktailPage from './CocktailPage';
 import axios from 'axios';
 import { Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter as Switch,
-         Route } from 'react-router-dom';
-import { HashRouter as Router } from 'react-router-dom'
+import { HashRouter as Router,
+        Switch,
+        Route } from 'react-router-dom'
 
 import FavoritPage from './FavoritPage';
 
@@ -45,7 +45,7 @@ function MainPage(){
   },[])
 
   return(
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename="/">
       <TopNevBar/>
       <Container>  
         <Switch>
