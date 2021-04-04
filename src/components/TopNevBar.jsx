@@ -1,16 +1,20 @@
 import React from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+import {Popover,
+        AppBar,
+        Toolbar,
+        IconButton,
+        Typography,
+        InputBase} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalBarIcon from '@material-ui/icons/LocalBar';
 import HomeIcon from '@material-ui/icons/Home';
-import {Link, useLocation} from 'react-router-dom';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -75,16 +79,55 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TopNevBar() {
   const classes = useStyles();
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const menuId = 'primary-search-account-menu';
-
   const location = useLocation()
 
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+  const open = Boolean(anchorEl);
+  const id = open ? 'aboute-me' : undefined;
+  const handleClose = () =>{setAnchorEl(null);};
+  const handelAboutMe=(e)=>{
+    setAnchorEl(e.currentTarget);
+  }
 
+  const aboutPop=(
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+    >
+      <div>
+        <IconButton
+            edge="end"
+            aria-controls="github"
+            className={classes.notFocos}
+            onClick={handleClose}
+            href="https://github.com/leehep/cocktail_bar"
+            target="_blank"
+          >
+            <GitHubIcon/>
+          </IconButton>
+          <IconButton
+            aria-controls="linkedin"
+            className={classes.notFocos}
+            onClick={handleClose}
+            href="https://www.linkedin.com/in/leehe-p-217b26149/"
+            target="_blank"
+          >
+            <LinkedInIcon/>
+          </IconButton>
+      </div>
+    </Popover>
+  )
   const search = (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -114,7 +157,7 @@ export default function TopNevBar() {
       edge="end"
       aria-controls={menuId}
       className={classes.notFocos}
-      // onClick={handleProfileMenuOpen}
+      onClick={handelAboutMe}
     >
       <AccountCircle/>
     </IconButton>
@@ -149,6 +192,7 @@ export default function TopNevBar() {
           </Typography>
           {search}
           <div className={classes.grow} />
+          {aboutPop}
           {rightSideBtn}
         </Toolbar>
       </AppBar>
